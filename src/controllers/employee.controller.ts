@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,7 +23,7 @@ import {EmployeeRepository} from '../repositories';
 export class EmployeeController {
   constructor(
     @repository(EmployeeRepository)
-    public employeeRepository : EmployeeRepository,
+    public employeeRepository: EmployeeRepository,
   ) {}
 
   @post('/employees')
@@ -52,9 +52,7 @@ export class EmployeeController {
     description: 'Employee model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Employee) where?: Where<Employee>,
-  ): Promise<Count> {
+  async count(@param.where(Employee) where?: Where<Employee>): Promise<Count> {
     return this.employeeRepository.count(where);
   }
 
@@ -105,8 +103,9 @@ export class EmployeeController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
-    @param.filter(Employee, {exclude: 'where'}) filter?: FilterExcludingWhere<Employee>
+    @param.path.string('id') id: string,
+    @param.filter(Employee, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Employee>,
   ): Promise<Employee> {
     return this.employeeRepository.findById(id, filter);
   }
@@ -116,7 +115,7 @@ export class EmployeeController {
     description: 'Employee PATCH success',
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -134,7 +133,7 @@ export class EmployeeController {
     description: 'Employee PUT success',
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() employee: Employee,
   ): Promise<void> {
     await this.employeeRepository.replaceById(id, employee);
@@ -144,7 +143,7 @@ export class EmployeeController {
   @response(204, {
     description: 'Employee DELETE success',
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.employeeRepository.deleteById(id);
   }
 }
