@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -26,6 +27,7 @@ export class EmployeeController {
     public employeeRepository: EmployeeRepository,
   ) {}
 
+  @authenticate('jwt')
   @post('/employees')
   @response(200, {
     description: 'Employee model instance',
@@ -47,6 +49,7 @@ export class EmployeeController {
     return this.employeeRepository.create(employee);
   }
 
+  @authenticate('jwt')
   @get('/employees/count')
   @response(200, {
     description: 'Employee model count',
@@ -74,6 +77,7 @@ export class EmployeeController {
     return this.employeeRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/employees')
   @response(200, {
     description: 'Employee PATCH success count',
@@ -128,6 +132,7 @@ export class EmployeeController {
     await this.employeeRepository.updateById(id, employee);
   }
 
+  @authenticate('jwt')
   @put('/employees/{id}')
   @response(204, {
     description: 'Employee PUT success',
@@ -139,6 +144,7 @@ export class EmployeeController {
     await this.employeeRepository.replaceById(id, employee);
   }
 
+  @authenticate('jwt')
   @del('/employees/{id}')
   @response(204, {
     description: 'Employee DELETE success',

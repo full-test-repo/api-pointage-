@@ -1,5 +1,5 @@
 import {Client} from '@loopback/testlab';
-import {ApiPointageApplication} from '../..';
+import {ApiPointageApplication} from '../../';
 import {setupApplication} from './test-helper';
 
 describe('HomePage', () => {
